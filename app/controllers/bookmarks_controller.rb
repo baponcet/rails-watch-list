@@ -6,10 +6,12 @@ class BookmarksController < ApplicationController
 
   def create
     @list = List.find(params[:list_id])
-    Bookmark.create(movie_id: params[:bookmark][:movie_id], list_id: params[:list_id],
-                    comment: params[:bookmark][:comment])
-
-    redirect_to list_path(@list)
+    if Bookmark.create(movie_id: params[:bookmark][:movie_id], list_id: params[:list_id],
+                       comment: params[:bookmark][:comment])
+      redirect_to list_path(@list)
+    else
+      render :new, status: :unprocessable_entity
+    end
   end
 
   private

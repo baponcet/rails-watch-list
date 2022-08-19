@@ -1,5 +1,11 @@
-<%= simple_form_for [@list, @bookmark] do |f| %>
-  <%= f.association :movie %>
-  <%= f.input :comment %>
-  <%= f.submit 'Add movie', class: 'btn btn-secondary' %>
-<% end %>
+<div class="container">
+  <div class="row d-flex justify-content-center mt-5">
+    <div class="col-6">
+      <%= simple_form_for [@list, @bookmark] do |f| %>
+        <%= f.association :movie %>
+        <%= f.input :comment %>
+        <%= f.submit 'Add movie', class: 'btn btn-gradient w-100' %>
+      <% end %>
+    </div>
+  </div>
+</div>

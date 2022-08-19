@@ -1,9 +1,24 @@
-<div class="container">
-  <h1>This is your lists</h1>
+<div class="banner" style="background-image: linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.6)), url(https://images.unsplash.com/photo-1615986201152-7686a4867f30?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2525&q=80);">
+  <div class="container">
+    <h1>WatchList is <strong>your best friend</strong> to <strong>create lists</strong>!</h1>
+    <p>Change your life and create lists.</p>
+    <%= link_to 'New list', new_list_path, class: 'btn btn-gradient'  %>
+  </div>
+</div>
 
-  <ul>
+<div class="container">
+  <div class="row d-flex mt-5">
     <% @lists.each do |list| %>
-      <li><%= link_to list.name, list_path(list) %></li>
+      <div class="col-4 px-3 py-3">
+        <div class="card">
+          <img class="card-img-top" src="https://picsum.photos/200/300" alt="Card image cap">
+          <div class="card-body">
+            <h5 class="card-title"><%= list.name %></h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <%= link_to 'Go', list_path(list), class: 'btn btn-flat' %>
+          </div>
+        </div>
+      </div>
     <% end %>
-  </ul>
+  </div>
 </div>
