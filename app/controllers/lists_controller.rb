@@ -4,9 +4,10 @@ class ListsController < ApplicationController
   end
 
   def create
-    @list = List.create(list_params)
-
-    redirect_to list_path(@list)
+    @list = List.new(list_params)
+    if @list.save
+      redirect_to list_path(@list)
+    end
   end
 
   def index
@@ -15,8 +16,7 @@ class ListsController < ApplicationController
 
   def show
     @list = List.find(params[:id])
-    @bookmarks = Bookmark.where(list_id: params[:id])
-    @movies = @bookmarks.map { |bookmark| bookmark.movie_id }
+    @review = Review.new
   end
 
   def destroy
@@ -29,6 +29,6 @@ class ListsController < ApplicationController
   private
 
   def list_params
-    params.require(:list).permit(:name)
+    params.require(:list).permit(:name, :photo)
   end
 end

@@ -1,24 +1,70 @@
-<div class="banner" style="background-image: linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.6)), url(https://images.unsplash.com/photo-1615986201152-7686a4867f30?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2525&q=80);">
+<div class="banner" style="background-image: linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.6)), url(<%= cl_image_path @list.photo.key, height: 800, crop: :fill %>);">
   <div class="container">
     <h1><%= @list.name %></h1>
-    <%= link_to 'New bookmark', new_list_bookmark_path(@list), class: 'btn btn-gradient my-2'  %>
   </div>
 </div>
 
 <div class="container">
-  <ul>
-  <div class="row d-flex mt-5">
-    <% @movies.each do |id| %>
-      <% @movie = Movie.find(id) %>
+  <%= link_to 'New bookmark', new_list_bookmark_path(@list), class: 'btn btn-gradient my-4'  %>
+  <div class="row d-flex">
+    <% @list.bookmarks.each do |bookmark| %>
+      <% @movie = Movie.find(bookmark.movie_id) %>
         <div class="col-4 px-3 py-3">
           <div class="card">
             <img class="card-img-top" src="<%= @movie.poster_url %>" alt="Card image cap">
-            <div class="card-body">
+            <div class="card-body card-body-top">
               <h5 class="card-title"><%= @movie.title %></h5>
               <p class="card-text"><%= @movie.overview %></p>
             </div>
           </div>
+          <% if !bookmark.comment.empty? %>
+          <div class="card">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item"><em><%= bookmark.comment %></em></li>
+            </ul>
+          </div>
+          <% end %>
         </div>
     <% end %>
+  </div>
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-gradient my-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Add a review
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add a review</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <%= simple_form_for [@list, @review] do |f| %>
+          <%= f.input :content %>
+          <%= f.submit 'Add a review', class: 'btn btn-gradient w-100'  %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div>
+    <% if !@list.reviews.empty? %>
+      <% @list.reviews.each do |review| %>
+      <div class="card my-1">
+        <div class="card-body", id="comment">
+          <p><%= review.content %></p>
+          <p><em>-Anonymous user</em></p>
+        </div>
+      </div>
+      <% end %>
+    <% else %>
+      <div class="card-body", id="comment">
+        <p><em>No review yet</em></p>
+      </div>
+    <% end  %>
   </div>
 </div>
